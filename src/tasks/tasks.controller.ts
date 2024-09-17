@@ -13,11 +13,13 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ParseMongoIDPipe } from 'src/common/pipes/mongoid.pipe';
 import { PaginationQueryDto } from './dto/paginate-task.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller({
   version: '1',
   path: 'tasks',
 })
+@ApiTags('Tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
