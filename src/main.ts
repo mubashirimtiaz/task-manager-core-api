@@ -10,6 +10,8 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
 
+  app.enableCors();
+
   app.setGlobalPrefix('api');
 
   app.useGlobalPipes(
@@ -20,7 +22,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
-    .setDescription('The task manager API description')
+    .setDescription(
+      'The task manager app allows users to create, update, and delete tasks efficiently, providing a straightforward way to manage and organize tasks.',
+    )
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

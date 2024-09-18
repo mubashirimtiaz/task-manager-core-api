@@ -11,7 +11,7 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
   @Transform(({ value }) => parseInt(value, 10))
-  page: number = 1;
+  page?: number = 1;
 
   @ApiProperty({
     required: false,
@@ -21,7 +21,7 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
   @Transform(({ value }) => parseInt(value, 10))
-  limit: number = 10;
+  limit?: number = 10;
 
   @ApiProperty({
     required: false,
@@ -29,7 +29,7 @@ export class PaginationQueryDto {
   })
   @IsOptional()
   @IsString()
-  sortBy: string = 'createdAt';
+  sortBy?: string = 'createdAt';
 
   @ApiProperty({
     required: false,
@@ -37,5 +37,5 @@ export class PaginationQueryDto {
   })
   @IsOptional()
   @IsIn(['asc', 'desc'])
-  order: 'asc' | 'desc' = 'asc';
+  order?: 'asc' | 'desc' = 'asc';
 }

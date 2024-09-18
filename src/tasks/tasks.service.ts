@@ -3,6 +3,8 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskRepository } from './repository/task.repository';
 import { PaginationQueryDto } from './dto/paginate-task.dto';
+import { Exception } from 'src/utils/exception.util';
+import { FilterOptions, FilterQueryOptions } from './types/query-option.type';
 
 @Injectable()
 export class TasksService {
@@ -12,8 +14,14 @@ export class TasksService {
     return this.tasks.create(createTaskDto);
   }
 
-  findAll(query: PaginationQueryDto) {
-    return this.tasks.getAll(query);
+  findAllActive(query: PaginationQueryDto) {
+    const filter: FilterOptions = { archived: false };
+    return this.findAll({ filter, query });
+  }
+
+  findAllArchived(query: PaginationQueryDto) {
+    const filter: FilterOptions = { archived: true };
+    return this.findAll({ filter, query });
   }
 
   async findOne(id: string) {
@@ -23,6 +31,7 @@ export class TasksService {
       if (!task) {
         throw new NotFoundException('Task not found');
       }
+      return task;
     } catch (error: unknown) {
       throw Exception(error);
     }
@@ -55,11 +64,15 @@ export class TasksService {
       throw Exception(error);
     }
   }
-}
 
-const Exception = (error: unknown) => {
-  if (error instanceof Error) {
-    return new Error(error.message);
+  private async findAll(options: FilterQueryOptions) {
+    try {
+      const tasksPromise = this.tasks.getAll(options);
+      const countPromise = this.tasks.count(options.filter);
+      const [tasks, total] = await Promise.all([tasksPromise, countPromise]);
+      return { tasks, total };
+    } catch (error) {
+      throw Exception(error);
+    }
   }
-  return new Error('An unknown error occurred');
-};
+}

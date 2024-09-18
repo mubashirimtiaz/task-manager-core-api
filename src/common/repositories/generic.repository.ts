@@ -8,4 +8,6 @@ export abstract class IGenericRepository<T> {
   abstract update(id: string, item: T);
 
   abstract delete(id: string);
+
+  abstract count(): Promise<number>;
 }
