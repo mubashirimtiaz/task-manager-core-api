@@ -37,5 +37,5 @@ export class PaginationQueryDto {
   })
   @IsOptional()
   @IsIn(['asc', 'desc'])
-  order?: 'asc' | 'desc' = 'asc';
+  order?: 'asc' | 'desc' = 'desc';
 }

@@ -4,6 +4,6 @@ services:
     build: .
     restart: always
     ports:
-      - 80:3000
+      - 80:8000
     env_file:
       - .env
